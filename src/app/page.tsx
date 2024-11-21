@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 import { runAI } from "@/actions/ai";
 import { Button } from "@/components/ui/button";
@@ -35,14 +36,21 @@ export default function Home() {
           placeholder="What's on your mind?"
           onChange={(e) => (prompt.current = e.target.value.trim())}
         />
-        <Button type="submit">Generate with AI</Button>
+        {/* TODO: add better loading indicator like spinner */}
+        <Button type="submit">
+          {loading ? "loading..." : "Generate with AI"}
+        </Button>
       </form>
 
       <Card className="mt-5">
         <CardHeader>AI Response</CardHeader>
         <CardContent>
           {/* TODO: add better loading indicator like spinner */}
-          {loading ? <div>loading...</div> : <div>{aiResponse}</div>}
+          {loading ? (
+            <div>loading...</div>
+          ) : (
+            <ReactMarkdown>{aiResponse}</ReactMarkdown>
+          )}
         </CardContent>
       </Card>
     </main>
