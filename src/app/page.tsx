@@ -11,7 +11,7 @@ export default function Home() {
   const handleRunAI = async () => {
     setLoading(true);
     try {
-      const data = await runAI();
+      const data = await runAI("write a one line admiration about an artist");
       setAiResponse(data);
     } catch (err) {
       if (err instanceof Error) console.error(err.message);

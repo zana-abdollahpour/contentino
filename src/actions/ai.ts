@@ -17,12 +17,12 @@ const generationConfig = {
   responseMimeType: "text/plain",
 };
 
-export async function runAI() {
+export async function runAI(prompt: string) {
   const chatSession = model.startChat({
     generationConfig,
     history: [],
   });
 
-  const result = await chatSession.sendMessage("say a funny dad joke");
+  const result = await chatSession.sendMessage(prompt);
   return result.response.text();
 }
