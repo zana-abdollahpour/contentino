@@ -23,7 +23,7 @@ export default function TopNavigation() {
           <Link
             className="mr-2"
             href="/dashboard"
-          >{`${user.fullName}'s Dashboard`}</Link>
+          >{`${user.firstName}'s Dashboard`}</Link>
         )}
         <SignedOut>
           <SignInButton />
