@@ -17,7 +17,7 @@ export default function TopNavigation() {
   const { isSignedIn } = useUser();
 
   return (
-    <nav className="flex items-center justify-between border-b px-5 py-2 shadow md:py-5">
+    <nav className="mb-2 flex items-center justify-between rounded-lg border px-5 py-2 shadow md:py-5">
       <Link href="/" className="flex items-center gap-1 md:gap-0">
         <Image
           alt="logo"

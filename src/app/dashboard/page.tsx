@@ -10,8 +10,8 @@ export default function DashboardPage() {
         <div
           key={template.name}
           className={twMerge(
-            "flex cursor-pointer flex-col gap-3 rounded-md border p-5 shadow-md",
-            "transition-all hover:scale-105",
+            "flex cursor-pointer flex-col gap-3 rounded-md border p-5 shadow-sm",
+            "transition-all hover:scale-95 hover:rounded-lg hover:shadow-lg dark:shadow-secondary",
           )}
         >
           <Image
