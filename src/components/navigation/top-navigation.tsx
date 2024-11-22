@@ -11,12 +11,13 @@ import {
 } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/navigation/mode-toggle";
 
 export default function TopNavigation() {
   const { isSignedIn } = useUser();
 
   return (
-    <nav className="flex items-center justify-between px-5 py-2 shadow md:py-5">
+    <nav className="flex items-center justify-between border-b px-5 py-2 shadow md:py-5">
       <Link href="/" className="flex items-center gap-1 md:gap-0">
         <Image
           alt="logo"
@@ -25,12 +26,14 @@ export default function TopNavigation() {
           height={28}
           className="md:h-12 md:w-12"
         />
-        <span className="text-lg font-bold italic text-primary/90 md:text-3xl">
+        <span className="text-lg font-bold italic text-primary md:text-3xl">
           Contentino
         </span>
       </Link>
 
       <div className="flex items-center gap-2">
+        <ModeToggle />
+
         {isSignedIn && (
           <Button variant="secondary" className="border border-primary/60">
             <Link className="mr-2" href="/dashboard">
@@ -38,6 +41,7 @@ export default function TopNavigation() {
             </Link>
           </Button>
         )}
+
         <SignedOut>
           <SignInButton />
         </SignedOut>
