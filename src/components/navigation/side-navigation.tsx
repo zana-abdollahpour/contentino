@@ -37,7 +37,7 @@ export default function SideNavigation() {
   const pathname = usePathname();
 
   return (
-    <aside className="h-screen border shadow-sm">
+    <aside className="sticky top-0 h-screen border shadow-sm">
       <ul className="h-full">
         {sideMenuItems.map((sideMenuItem) => (
           <li

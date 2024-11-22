@@ -6,7 +6,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex [&>*]:p-5">
+    <div className="relative flex [&>*]:p-5">
       <SideNavigation />
       <main>
         <p>main content</p>
