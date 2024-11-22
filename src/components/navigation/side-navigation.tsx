@@ -37,19 +37,22 @@ export default function SideNavigation() {
   const pathname = usePathname();
 
   return (
-    <aside className="h-screen border p-5 shadow-sm">
+    <aside className="h-screen border shadow-sm">
       <ul className="h-full">
         {sideMenuItems.map((sideMenuItem) => (
           <li
             key={sideMenuItem.name}
             className={twMerge(
-              "m-2 mr-4 flex cursor-pointer rounded-lg p-2 hover:bg-primary/80 hover:text-white",
+              "my-4 flex w-fit cursor-pointer rounded-lg p-2 first-of-type:mt-0 hover:bg-primary/80 hover:text-white md:w-auto md:pr-6",
               pathname === sideMenuItem.path && "bg-primary text-white",
             )}
           >
-            <Link href={sideMenuItem.path} className="flex">
+            <Link
+              href={sideMenuItem.path}
+              className="flex w-full items-center justify-center md:justify-start"
+            >
               <sideMenuItem.icon />
-              <span className="ml-2">{sideMenuItem.name}</span>
+              <span className="ml-2 hidden md:inline">{sideMenuItem.name}</span>
             </Link>
           </li>
         ))}

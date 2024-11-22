@@ -6,11 +6,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid grid-cols-4 gap-4">
-      <div className="col-span-1">
-        <SideNavigation />
-      </div>
-      <main className="col-span-3">
+    <div className="flex [&>*]:p-5">
+      <SideNavigation />
+      <main>
         <p>main content</p>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni impedit
