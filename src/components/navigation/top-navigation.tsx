@@ -10,26 +10,46 @@ import {
   useUser,
 } from "@clerk/nextjs";
 
+import { Button } from "@/components/ui/button";
+
 export default function TopNavigation() {
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn } = useUser();
 
   return (
-    <nav className="flex items-center justify-between p-2 shadow">
-      <Link href="/">
-        <Image alt="logo" src="/logo.svg" width={28} height={28} />
+    <nav className="flex items-center justify-between px-5 py-2 shadow md:py-5">
+      <Link href="/" className="flex items-center gap-1 md:gap-0">
+        <Image
+          alt="logo"
+          src="/logo.svg"
+          width={28}
+          height={28}
+          className="md:h-12 md:w-12"
+        />
+        <span className="text-lg font-bold italic text-primary/90 md:text-3xl">
+          Contentino
+        </span>
       </Link>
-      <div className="flex items-center">
+
+      <div className="flex items-center gap-2">
         {isSignedIn && (
-          <Link
-            className="mr-2"
-            href="/dashboard"
-          >{`${user.firstName}'s Dashboard`}</Link>
+          <Button variant="secondary" className="border border-primary/60">
+            <Link className="mr-2" href="/dashboard">
+              My Dashboard
+            </Link>
+          </Button>
         )}
         <SignedOut>
           <SignInButton />
         </SignedOut>
         <SignedIn>
-          <UserButton />
+          <UserButton
+            appearance={{
+              elements: {
+                userButtonAvatarBox:
+                  "md:h-12 md:w-12 border-2 border-primary/60",
+              },
+            }}
+          />
         </SignedIn>
       </div>
     </nav>
