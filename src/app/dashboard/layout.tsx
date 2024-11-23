@@ -8,7 +8,7 @@ export default function DashboardLayout({
   return (
     <div className="relative flex [&>*]:p-5">
       <SideNavigation />
-      <main className="md:!pr-0">{children}</main>
+      <main className="w-full md:!pr-0">{children}</main>
     </div>
   );
 }
