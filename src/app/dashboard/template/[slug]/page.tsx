@@ -1,7 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
+import { Loader } from "lucide-react";
 
+import { runAI } from "@/actions/ai";
 import { templates } from "@/utils/templates";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,16 +15,31 @@ interface TemplatePageProps {
 }
 
 export default function TemplatePage({ params: { slug } }: TemplatePageProps) {
+  const [query, setQuery] = useState("");
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const curTemplate = templates.find((t) => t.slug === slug)!;
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     e.preventDefault();
+    setQuery(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const data = await runAI(`${curTemplate.aiPrompt}${query}`);
+      setContent(data);
+    } catch (err) {
+      setContent("An error occured, please try again!");
+      if (err instanceof Error) console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -57,11 +75,17 @@ export default function TemplatePage({ params: { slug } }: TemplatePageProps) {
               )}
             </div>
           ))}
-          <Button type="submit" className="w-full py-6">
-            Generate Content
+          <Button type="submit" className="w-full py-6" disabled={loading}>
+            {loading ? (
+              <Loader className="mr-2 animate-spin" />
+            ) : (
+              "Generate Content"
+            )}
           </Button>
         </form>
       </div>
+
+      <div className="col-span-2">{content}</div>
     </div>
   );
 }
