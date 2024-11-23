@@ -26,7 +26,7 @@ export default function TopNavigation() {
           height={28}
           className="md:h-12 md:w-12"
         />
-        <span className="text-lg font-bold italic text-primary md:text-3xl">
+        <span className="hidden text-lg font-bold italic text-primary sm:inline md:text-3xl">
           Contentino
         </span>
       </Link>
