@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 import { Search } from "lucide-react";
 
@@ -42,7 +43,8 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {filteredTempaltes.map((template) => (
-          <div
+          <Link
+            href={`/dashboard/template/${template.slug}`}
             key={template.name}
             className={twMerge(
               "flex cursor-pointer flex-col gap-3 rounded-md border p-5 shadow-sm",
@@ -57,7 +59,7 @@ export default function DashboardPage() {
             />
             <h2 className="text-lg font-medium">{template.name}</h2>
             <p className="line-clamp-3 text-gray-500">{template.desc}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
