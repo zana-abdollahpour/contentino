@@ -1,4 +1,21 @@
-export const templates = [
+export interface Form {
+  label: string;
+  field: string;
+  name: string;
+  required: boolean;
+}
+
+export interface Template {
+  name: string;
+  desc: string;
+  category: string;
+  icon: string;
+  aiPrompt: string;
+  slug: string;
+  form: Form[];
+}
+
+export const templates: Template[] = [
   {
     name: "Blog Ideas",
     desc: "An AI tool that generate blog ideas based on the topic you provide",

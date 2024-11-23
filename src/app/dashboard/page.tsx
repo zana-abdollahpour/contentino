@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 
-import { templates } from "@/templates";
+import { templates } from "@/utils/templates";
 
 export default function DashboardPage() {
   return (
