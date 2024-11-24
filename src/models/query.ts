@@ -1,5 +1,14 @@
 import mongoose, { Schema, model } from "mongoose";
 
+import type { Template } from "@/utils/templates";
+
+export interface TQuery {
+  template: Template;
+  email: string;
+  query: string;
+  content?: string;
+}
+
 const QuerySchema = new Schema(
   {
     template: {
@@ -19,7 +28,7 @@ const QuerySchema = new Schema(
       type: String,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Query = mongoose.models.Query || model("Query", QuerySchema);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -9,6 +10,7 @@ import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 
 import { runAI } from "@/actions/ai";
+import { saveQuery } from "@/actions/ai";
 import { templates } from "@/utils/templates";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,7 +24,11 @@ export default function TemplatePage({ params: { slug } }: TemplatePageProps) {
   const [query, setQuery] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+
   const editorRef = useRef<Editor | null>(null);
+
+  const { user } = useUser();
+  const email = user?.primaryEmailAddress?.emailAddress || "";
 
   useEffect(() => {
     if (!content || !editorRef.current) return;
@@ -45,6 +51,8 @@ export default function TemplatePage({ params: { slug } }: TemplatePageProps) {
     try {
       const data = await runAI(`${curTemplate.aiPrompt}${query}`);
       setContent(data);
+
+      await saveQuery({ template: curTemplate, email, query, content: data });
     } catch (err) {
       setContent("An error occured, please try again!");
       if (err instanceof Error) console.error(err);

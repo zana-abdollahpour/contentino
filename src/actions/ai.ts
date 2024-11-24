@@ -2,6 +2,9 @@
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+import { db } from "@/utils/db";
+import Query, { type TQuery } from "@/models/query";
+
 const apiKey = process.env.GEMINI_API_KEY!;
 const genAI = new GoogleGenerativeAI(apiKey);
 
@@ -25,4 +28,18 @@ export async function runAI(prompt: string) {
 
   const result = await chatSession.sendMessage(prompt);
   return result.response.text();
+}
+
+export async function saveQuery(queryObject: TQuery) {
+  try {
+    await db();
+
+    const newQuery = new Query({ ...queryObject });
+
+    await newQuery.save();
+    return { ok: true };
+  } catch (err) {
+    console.error(err);
+    return { ok: false };
+  }
 }
