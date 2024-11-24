@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 
 import { ThemeProvider } from "@/context/theme";
 import TopNavigation from "@/components/navigation/top-navigation";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,6 +38,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <Toaster />
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

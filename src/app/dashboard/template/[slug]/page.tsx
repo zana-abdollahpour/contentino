@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Loader } from "lucide-react";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import { Loader, ArrowLeft, Copy } from "lucide-react";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 
@@ -51,59 +53,102 @@ export default function TemplatePage({ params: { slug } }: TemplatePageProps) {
     }
   };
 
+  const handleCopy = async () => {
+    if (!content || !editorRef.current || !navigator.clipboard) return;
+    const editorInstance = editorRef.current.getInstance();
+    const copiedMD = editorInstance.getMarkdown();
+
+    try {
+      await navigator.clipboard.writeText(copiedMD);
+      toast.success("Content copied to clipboard");
+    } catch (err) {
+      if (err instanceof Error) toast.error(err.message);
+      else console.error(err);
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 gap-y-5 px-5 md:grid-cols-3">
-      <div className="col-span-1 rounded-md border bg-slate-100 p-5 dark:bg-slate-900 md:mr-5">
-        <div className="flex flex-col gap-3">
-          <Image
-            src={curTemplate.icon}
-            alt={curTemplate.name}
-            width={50}
-            height={50}
-          />
-          <h2 className="text-lg font-medium">{curTemplate.name}</h2>
-          <p className="text-gray-500">{curTemplate.desc}</p>
+    <>
+      <div className="mx-5 mb-5 flex justify-between">
+        <Link href="/dashboard">
+          <Button>
+            <ArrowLeft />
+            Go Back
+          </Button>
+        </Link>
+
+        <Button
+          onClick={handleCopy}
+          disabled={!content}
+          className="hidden gap-2 md:flex"
+        >
+          <Copy /> Copy
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 gap-y-5 px-5 md:grid-cols-3">
+        <div className="col-span-1 rounded-md border bg-slate-100 p-5 dark:bg-slate-900 md:mr-5">
+          <div className="flex flex-col gap-3">
+            <Image
+              src={curTemplate.icon}
+              alt={curTemplate.name}
+              width={50}
+              height={50}
+            />
+            <h2 className="text-lg font-medium">{curTemplate.name}</h2>
+            <p className="text-gray-500">{curTemplate.desc}</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="mt-6">
+            {curTemplate?.form.map((template) => (
+              <div
+                className="mb-7 mt-2 flex flex-col gap-2"
+                key={template.name}
+              >
+                <label className="pb-5 font-bold">{template.label}</label>
+                {template.field === "input" ? (
+                  <Input
+                    name={template.name}
+                    required={template.required}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <Textarea
+                    name={template.name}
+                    required={template.required}
+                    onChange={handleChange}
+                  />
+                )}
+              </div>
+            ))}
+            <Button type="submit" className="w-full py-6" disabled={loading}>
+              {loading ? (
+                <Loader className="mr-2 animate-spin" />
+              ) : (
+                "Generate Content"
+              )}
+            </Button>
+          </form>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-6">
-          {curTemplate?.form.map((template) => (
-            <div className="mb-7 mt-2 flex flex-col gap-2" key={template.name}>
-              <label className="pb-5 font-bold">{template.label}</label>
-              {template.field === "input" ? (
-                <Input
-                  name={template.name}
-                  required={template.required}
-                  onChange={handleChange}
-                />
-              ) : (
-                <Textarea
-                  name={template.name}
-                  required={template.required}
-                  onChange={handleChange}
-                />
-              )}
-            </div>
-          ))}
-          <Button type="submit" className="w-full py-6" disabled={loading}>
-            {loading ? (
-              <Loader className="mr-2 animate-spin" />
-            ) : (
-              "Generate Content"
-            )}
+        <div className="col-span-2">
+          <Editor
+            ref={editorRef}
+            initialValue="Generated content will be displayed here..."
+            previewStyle="vertical"
+            height="600px"
+            initialEditType="wysiwyg"
+            useCommandShortcut={true}
+          />
+          <Button
+            onClick={handleCopy}
+            disabled={!content}
+            className="mt-2 w-full py-2 md:hidden"
+          >
+            <Copy /> Copy
           </Button>
-        </form>
+        </div>
       </div>
-
-      <div className="col-span-2">
-        <Editor
-          ref={editorRef}
-          initialValue="Generated content will be displayed here..."
-          previewStyle="vertical"
-          height="600px"
-          initialEditType="wysiwyg"
-          useCommandShortcut={true}
-        />
-      </div>
-    </div>
+    </>
   );
 }
