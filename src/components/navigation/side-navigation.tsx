@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import Usage from "./usage";
+import SignupModal from "@/components/modal/signup-modal";
 
 const sideMenuItems = [
   {
@@ -70,6 +71,7 @@ export default function SideNavigation({ className }: SideNavigationProps) {
         ))}
         <li className="mb-8 mt-auto w-full rounded-lg bg-primary/5 p-1">
           <Usage />
+          <SignupModal />
         </li>
       </ul>
     </aside>

@@ -14,6 +14,8 @@ import { usageCount } from "@/actions/ai";
 interface UsageContextType {
   count: number;
   fetchUsage: () => () => Promise<void>;
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UsageContext = createContext<UsageContextType | null>(null);
@@ -24,6 +26,7 @@ export const UsageProvider = ({
   children: React.ReactNode;
 }>) => {
   const [count, setCount] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
 
   const { user } = useUser();
   const email = user?.primaryEmailAddress?.emailAddress || "";
@@ -40,8 +43,14 @@ export const UsageProvider = ({
     if (email) fetchUsage();
   }, [email, fetchUsage]);
 
+  useEffect(() => {
+    if (count > 10000) setOpenModal(true);
+  }, [count]);
+
   return (
-    <UsageContext.Provider value={{ count, fetchUsage }}>
+    <UsageContext.Provider
+      value={{ count, fetchUsage, openModal, setOpenModal }}
+    >
       {children}
     </UsageContext.Provider>
   );
