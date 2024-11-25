@@ -16,7 +16,7 @@ export default function Usage() {
     <div className="my-2">
       <div className="rounded-lg">
         <h2 className="font-medium">Credits</h2>
-        <div className="mt-3 h-2 w-full rounded-full bg-slate-500">
+        <div className="mt-3 h-2 w-full rounded-full bg-primary">
           <div
             className={twMerge(
               "h2 rounded-full bg-slate-200",
@@ -29,7 +29,7 @@ export default function Usage() {
         </h3>
       </div>
 
-      <Button className="my-3 w-full" variant="secondary">
+      <Button className="my-3 w-full bg-primary/30" variant="outline">
         Upgrade
       </Button>
     </div>

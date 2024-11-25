@@ -36,7 +36,7 @@ const sideMenuItems = [
 ] as const;
 
 interface SideNavigationProps {
-  className: string;
+  className?: string;
 }
 
 export default function SideNavigation({ className }: SideNavigationProps) {
@@ -45,7 +45,7 @@ export default function SideNavigation({ className }: SideNavigationProps) {
   return (
     <aside
       className={twMerge(
-        "top-4 max-h-full rounded-lg border shadow-sm",
+        "mt-8 h-full rounded-lg shadow-sm sm:mt-0 sm:border",
         className,
       )}
     >
@@ -55,20 +55,20 @@ export default function SideNavigation({ className }: SideNavigationProps) {
             key={sideMenuItem.name}
             className={twMerge(
               "flex w-full cursor-pointer rounded-lg p-2",
-              "first-of-type:mt-0 hover:bg-primary/80 hover:text-white md:w-auto md:pr-6",
+              "first-of-type:mt-0 hover:bg-primary/80 hover:text-white sm:pr-28 md:w-auto",
               pathname === sideMenuItem.path && "bg-primary text-white",
             )}
           >
             <Link
               href={sideMenuItem.path}
-              className="flex w-full items-center justify-center md:justify-start"
+              className="flex w-full items-center justify-start md:justify-start"
             >
               <sideMenuItem.icon />
-              <span className="ml-2 hidden md:inline">{sideMenuItem.name}</span>
+              <span className="ml-2">{sideMenuItem.name}</span>
             </Link>
           </li>
         ))}
-        <li className="mt-auto w-full">
+        <li className="mb-8 mt-auto w-full rounded-lg bg-primary/5 p-1">
           <Usage />
         </li>
       </ul>
