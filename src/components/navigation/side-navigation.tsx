@@ -10,6 +10,8 @@ import {
   Settings,
 } from "lucide-react";
 
+import Usage from "./usage";
+
 const sideMenuItems = [
   {
     name: "Dashboard",
@@ -33,17 +35,26 @@ const sideMenuItems = [
   },
 ] as const;
 
-export default function SideNavigation() {
+interface SideNavigationProps {
+  className: string;
+}
+
+export default function SideNavigation({ className }: SideNavigationProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="sticky top-4 my-4 h-[calc(100dvh_-_2rem)] rounded-lg border shadow-sm">
-      <ul className="h-full">
+    <aside
+      className={twMerge(
+        "top-4 max-h-full rounded-lg border shadow-sm",
+        className,
+      )}
+    >
+      <ul className="flex h-full flex-col items-stretch justify-start gap-4">
         {sideMenuItems.map((sideMenuItem) => (
           <li
             key={sideMenuItem.name}
             className={twMerge(
-              "my-4 flex w-fit cursor-pointer rounded-lg p-2",
+              "flex w-full cursor-pointer rounded-lg p-2",
               "first-of-type:mt-0 hover:bg-primary/80 hover:text-white md:w-auto md:pr-6",
               pathname === sideMenuItem.path && "bg-primary text-white",
             )}
@@ -57,6 +68,9 @@ export default function SideNavigation() {
             </Link>
           </li>
         ))}
+        <li className="mt-auto w-full">
+          <Usage />
+        </li>
       </ul>
     </aside>
   );
