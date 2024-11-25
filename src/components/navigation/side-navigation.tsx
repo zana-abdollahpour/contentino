@@ -8,10 +8,17 @@ import {
   FileClock,
   WalletCards,
   Settings,
+  Menu,
 } from "lucide-react";
 
 import Usage from "./usage";
 import SignupModal from "@/components/modal/signup-modal";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const sideMenuItems = [
   {
@@ -43,13 +50,8 @@ interface SideNavigationProps {
 export default function SideNavigation({ className }: SideNavigationProps) {
   const pathname = usePathname();
 
-  return (
-    <aside
-      className={twMerge(
-        "mt-8 h-full rounded-lg shadow-sm sm:mt-0 sm:border",
-        className,
-      )}
-    >
+  const menu = (
+    <aside className="mt-8 h-full rounded-lg p-5 shadow-sm sm:mt-0 sm:border">
       <ul className="flex h-full flex-col items-stretch justify-start gap-4">
         {sideMenuItems.map((sideMenuItem) => (
           <li
@@ -60,13 +62,15 @@ export default function SideNavigation({ className }: SideNavigationProps) {
               pathname === sideMenuItem.path && "bg-primary text-white",
             )}
           >
-            <Link
-              href={sideMenuItem.path}
-              className="flex w-full items-center justify-start md:justify-start"
-            >
-              <sideMenuItem.icon />
-              <span className="ml-2">{sideMenuItem.name}</span>
-            </Link>
+            <SheetClose asChild>
+              <Link
+                href={sideMenuItem.path}
+                className="flex w-full items-center justify-start md:justify-start"
+              >
+                <sideMenuItem.icon />
+                <span className="ml-2">{sideMenuItem.name}</span>
+              </Link>
+            </SheetClose>
           </li>
         ))}
         <li className="mb-8 mt-auto w-full rounded-lg bg-primary/5 p-1">
@@ -75,5 +79,20 @@ export default function SideNavigation({ className }: SideNavigationProps) {
         </li>
       </ul>
     </aside>
+  );
+
+  return (
+    <div className={twMerge("rounded-md bg-primary/5", className)}>
+      <Sheet>
+        <SheetTrigger className="sm:hidden">
+          <Menu className="ml-2 h-12 w-12 rounded-full bg-primary/10 p-2" />
+        </SheetTrigger>
+
+        <SheetContent side="left" className="w-72 p-0 pt-2">
+          {menu}
+        </SheetContent>
+        <div className="hidden h-full sm:block">{menu}</div>
+      </Sheet>
+    </div>
   );
 }
