@@ -1,12 +1,19 @@
 "use client";
 
-import { useState, useContext, useEffect, createContext } from "react";
+import {
+  useState,
+  useContext,
+  useEffect,
+  createContext,
+  useCallback,
+} from "react";
 import { useUser } from "@clerk/nextjs";
 
 import { usageCount } from "@/actions/ai";
 
 interface UsageContextType {
   count: number;
+  fetchUsage: () => () => Promise<void>;
 }
 
 const UsageContext = createContext<UsageContextType | null>(null);
@@ -21,17 +28,22 @@ export const UsageProvider = ({
   const { user } = useUser();
   const email = user?.primaryEmailAddress?.emailAddress || "";
 
-  useEffect(() => {
-    const fetchUsage = async () => {
+  const fetchUsage = useCallback(
+    () => async () => {
       const res = await usageCount(email!);
       setCount(res);
-    };
+    },
+    [email],
+  );
 
+  useEffect(() => {
     if (email) fetchUsage();
-  }, [email]);
+  }, [email, fetchUsage]);
 
   return (
-    <UsageContext.Provider value={{ count }}>{children}</UsageContext.Provider>
+    <UsageContext.Provider value={{ count, fetchUsage }}>
+      {children}
+    </UsageContext.Provider>
   );
 };
 

@@ -15,6 +15,7 @@ import { templates } from "@/utils/templates";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useUsage } from "@/context/usage";
 
 interface TemplatePageProps {
   params: { slug: string };
@@ -27,6 +28,7 @@ export default function TemplatePage({ params: { slug } }: TemplatePageProps) {
 
   const editorRef = useRef<Editor | null>(null);
 
+  const { fetchUsage } = useUsage();
   const { user } = useUser();
   const email = user?.primaryEmailAddress?.emailAddress || "";
 
@@ -53,6 +55,7 @@ export default function TemplatePage({ params: { slug } }: TemplatePageProps) {
       setContent(data);
 
       await saveQuery({ template: curTemplate, email, query, content: data });
+      fetchUsage();
     } catch (err) {
       setContent("An error occured, please try again!");
       if (err instanceof Error) console.error(err);
