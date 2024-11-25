@@ -17,7 +17,7 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <div className="mb-5 flex w-full flex-col items-center justify-center rounded-lg bg-secondary pb-5">
+      <div className="mb-5 flex w-full flex-col items-center justify-center rounded-lg bg-primary/10 pb-5">
         <h1 className="mt-5 text-xl">What&apos;s on your mind?</h1>
         <div className="flex w-full max-w-[30rem] justify-center px-5">
           <div
