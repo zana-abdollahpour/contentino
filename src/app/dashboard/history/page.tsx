@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
 
-import { getQueries } from "@/actions/ai";
+import { getQueries, type QueryResponse } from "@/actions/ai";
 import { Button } from "@/components/ui/button";
-import { type TQuery } from "@/models/query";
+import QueryTable from "@/components/table/query-table";
 
 export default function HistoryPage() {
-  const [queries, setQueries] = useState<TQuery[]>([]);
+  const [queries, setQueries] = useState<QueryResponse[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [perPage] = useState(10);
@@ -50,16 +50,26 @@ export default function HistoryPage() {
           </div>
         )
       ) : (
-        <div className="my-5 text-center">
-          {page < totalPages && (
-            <Button
-              disabled={loading}
-              onClick={() => setPage((cur) => cur + 1)}
-            >
-              {loading ? <Loader className="mx-2 animate-spin" /> : "Load more"}
-            </Button>
-          )}
-        </div>
+        <>
+          <div className="flex flex-col justify-center rounded-lg p-5">
+            <QueryTable queries={queries} />
+          </div>
+
+          <div className="my-5 text-center">
+            {page < totalPages && (
+              <Button
+                disabled={loading}
+                onClick={() => setPage((cur) => cur + 1)}
+              >
+                {loading ? (
+                  <Loader className="mx-2 animate-spin" />
+                ) : (
+                  "Load more"
+                )}
+              </Button>
+            )}
+          </div>
+        </>
       )}
     </>
   );

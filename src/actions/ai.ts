@@ -44,6 +44,12 @@ export async function saveQuery(queryObject: TQuery) {
   }
 }
 
+export interface QueryResponse extends TQuery {
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export async function getQueries(
   email: string,
   page: number,
@@ -55,7 +61,7 @@ export async function getQueries(
     const skip = (page - 1) * pageSize;
     const totalQueries = await Query.countDocuments({ email });
 
-    const queries: TQuery[] = await Query.find({ email })
+    const queries: QueryResponse[] = await Query.find({ email })
       .skip(skip)
       .limit(pageSize)
       .sort({ createdAt: -1 });
