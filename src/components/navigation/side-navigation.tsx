@@ -73,7 +73,7 @@ export default function SideNavigation({ className }: SideNavigationProps) {
             </SheetClose>
           </li>
         ))}
-        <li className="mb-8 mt-auto w-full rounded-lg bg-primary/5 p-1">
+        <li className="mb-8 mt-auto w-full rounded-lg bg-primary/10 px-4 sm:mb-0">
           <Usage />
           <SignupModal />
         </li>
@@ -85,7 +85,7 @@ export default function SideNavigation({ className }: SideNavigationProps) {
     <div className={twMerge("rounded-md bg-primary/5", className)}>
       <Sheet>
         <SheetTrigger className="sm:hidden">
-          <Menu className="ml-2 h-12 w-12 rounded-full bg-primary/10 p-2" />
+          <Menu className="ml-2 mt-1 h-12 w-12 rounded-full bg-primary/10 p-2" />
         </SheetTrigger>
 
         <SheetContent side="left" className="w-72 p-0 pt-2">
