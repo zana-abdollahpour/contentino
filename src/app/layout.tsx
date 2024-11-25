@@ -1,12 +1,13 @@
 import "./globals.css";
 
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "react-hot-toast";
 import localFont from "next/font/local";
 import type { Metadata } from "next";
 
 import { ThemeProvider } from "@/context/theme";
+import { UsageProvider } from "@/context/usage";
 import TopNavigation from "@/components/navigation/top-navigation";
-import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,10 +46,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <header className={`${layoutControlClasses} `}>
-              <TopNavigation />
-            </header>
-            <div className={`${layoutControlClasses}`}>{children}</div>
+            <UsageProvider>
+              <header className={`${layoutControlClasses} `}>
+                <TopNavigation />
+              </header>
+              <div className={`${layoutControlClasses}`}>{children}</div>
+            </UsageProvider>
           </ThemeProvider>
         </body>
       </html>
