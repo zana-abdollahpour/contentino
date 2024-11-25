@@ -43,3 +43,26 @@ export async function saveQuery(queryObject: TQuery) {
     return { ok: false };
   }
 }
+
+export async function getQueries(
+  email: string,
+  page: number,
+  pageSize: number,
+) {
+  try {
+    await db();
+
+    const skip = (page - 1) * pageSize;
+    const totalQueries = await Query.countDocuments({ email });
+
+    const queries: TQuery[] = await Query.find({ email })
+      .skip(skip)
+      .limit(pageSize)
+      .sort({ createdAt: -1 });
+
+    return { queries, totalPages: Math.ceil(totalQueries / pageSize) };
+  } catch (err) {
+    console.error(err);
+    return { ok: false };
+  }
+}
