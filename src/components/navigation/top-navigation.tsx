@@ -31,6 +31,10 @@ export default function TopNavigation() {
         </span>
       </Link>
 
+      <Link href="/membership" className="hidden md:block">
+        <Button variant="outline">🔥 Join free for $9.99/month</Button>
+      </Link>
+
       <div className="flex items-center gap-2">
         <ModeToggle />
 

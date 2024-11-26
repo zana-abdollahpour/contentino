@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
 import { useUsage } from "@/context/usage";
@@ -29,12 +30,14 @@ export default function Usage() {
         </h3>
       </div>
 
-      <Button
-        className="my-3 w-full bg-primary/30 hover:bg-primary/45"
-        variant="outline"
-      >
-        Upgrade
-      </Button>
+      <Link href="/membership">
+        <Button
+          className="my-3 w-full bg-primary/30 hover:bg-primary/45"
+          variant="outline"
+        >
+          Upgrade
+        </Button>
+      </Link>
     </div>
   );
 }
