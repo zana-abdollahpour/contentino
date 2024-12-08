@@ -29,7 +29,7 @@ export default function Home() {
   };
 
   return (
-    <main className="m-5">
+    <main className="m-5 p-5">
       <form onSubmit={handleRunAI}>
         <Input
           className="mb-5"
