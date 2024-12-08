@@ -1,12 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { SignInButton, useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
+import { createCheckoutSession } from "@/actions/stripe";
 
 interface PlanCardProps {
-  name: string;
+  name: "Free" | "Monthly";
   image: string;
   headingText: string;
   children: React.ReactNode;
@@ -19,8 +22,28 @@ export default function PlanCard({
   children,
 }: PlanCardProps) {
   const { isSignedIn, isLoaded } = useUser();
+  const router = useRouter();
 
-  const handleCheckout = async () => {};
+  const handleCheckout = async () => {
+    if (name === "Free") {
+      router.push("/dashboard");
+      return;
+    }
+
+    try {
+      const { url, error } = await createCheckoutSession();
+
+      if (error) {
+        toast.error(error);
+        return;
+      }
+
+      if (url) router.replace(url);
+    } catch (error) {
+      console.error(error);
+      toast.error("An unexpected error occured. please try again later.");
+    }
+  };
 
   return (
     <div className="m-4 flex max-w-sm flex-grow flex-col overflow-hidden rounded-lg border shadow-lg">
@@ -49,7 +72,9 @@ export default function PlanCard({
         </div>
       ) : (
         <div className="mt-auto px-5 pb-5">
-          <Button onClick={handleCheckout}>Get Started</Button>
+          <Button onClick={handleCheckout}>
+            {name === "Monthly" ? "Get Started" : "Continue Free"}
+          </Button>
         </div>
       )}
     </div>
