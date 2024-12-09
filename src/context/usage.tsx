@@ -10,8 +10,10 @@ import {
 import { useUser } from "@clerk/nextjs";
 
 import { usageCount } from "@/actions/ai";
+import { checkUserSusbcription } from "@/actions/stripe";
 
 interface UsageContextType {
+  subscribed: boolean;
   count: number;
   fetchUsage: () => () => Promise<void>;
   openModal: boolean;
@@ -27,6 +29,7 @@ export const UsageProvider = ({
 }>) => {
   const [count, setCount] = useState(0);
   const [openModal, setOpenModal] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
 
   const { user } = useUser();
   const email = user?.primaryEmailAddress?.emailAddress || "";
@@ -39,9 +42,19 @@ export const UsageProvider = ({
     [email],
   );
 
+  const fetchSubscription = useCallback(
+    () => async () => {
+      const res = await checkUserSusbcription();
+      setSubscribed(!!res?.ok);
+    },
+    [],
+  );
+
   useEffect(() => {
-    if (email) fetchUsage();
-  }, [email, fetchUsage]);
+    if (!email) return;
+    fetchUsage();
+    fetchSubscription();
+  }, [email, fetchSubscription, fetchUsage]);
 
   useEffect(() => {
     if (count > 10000) setOpenModal(true);
@@ -49,7 +62,7 @@ export const UsageProvider = ({
 
   return (
     <UsageContext.Provider
-      value={{ count, fetchUsage, openModal, setOpenModal }}
+      value={{ subscribed, count, fetchUsage, openModal, setOpenModal }}
     >
       {children}
     </UsageContext.Provider>
