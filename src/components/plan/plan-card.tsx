@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
+import { Loader } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { createCheckoutSession } from "@/actions/stripe";
@@ -21,6 +23,7 @@ export default function PlanCard({
   headingText,
   children,
 }: PlanCardProps) {
+  const [loading, setLoading] = useState(false);
   const { isSignedIn, isLoaded } = useUser();
   const router = useRouter();
 
@@ -29,6 +32,8 @@ export default function PlanCard({
       router.push("/dashboard");
       return;
     }
+
+    setLoading(true);
 
     try {
       const { url, error } = await createCheckoutSession();
@@ -42,6 +47,8 @@ export default function PlanCard({
     } catch (error) {
       console.error(error);
       toast.error("An unexpected error occured. please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,8 +79,17 @@ export default function PlanCard({
         </div>
       ) : (
         <div className="mt-auto px-5 pb-5">
-          <Button onClick={handleCheckout}>
-            {name === "Monthly" ? "Get Started" : "Continue Free"}
+          <Button onClick={handleCheckout} disabled={loading} className="w-28">
+            {loading ? (
+              <>
+                <span>Processing</span>
+                <Loader className="animate-spin" />
+              </>
+            ) : name === "Monthly" ? (
+              "Get Started"
+            ) : (
+              "Continue Free"
+            )}
           </Button>
         </div>
       )}
