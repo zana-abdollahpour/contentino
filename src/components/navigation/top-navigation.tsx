@@ -39,6 +39,10 @@ export default function TopNavigation() {
         </Link>
       )}
 
+      <Link href="/gen-ai">
+        <Button variant="outline">Generative AI</Button>
+      </Link>
+
       <div className="flex items-center gap-2">
         <ModeToggle />
 
