@@ -12,9 +12,11 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/navigation/mode-toggle";
+import { useUsage } from "@/context/usage";
 
 export default function TopNavigation() {
   const { isSignedIn } = useUser();
+  const { subscribed } = useUsage();
 
   return (
     <nav className="mb-2 flex items-center justify-between rounded-lg border px-5 py-2 shadow md:py-5">
@@ -31,9 +33,11 @@ export default function TopNavigation() {
         </span>
       </Link>
 
-      <Link href="/membership" className="hidden md:block">
-        <Button variant="outline">🔥 Join free for $9.99/month</Button>
-      </Link>
+      {!subscribed && (
+        <Link href="/membership" className="hidden md:block">
+          <Button variant="outline">🔥 Join free for $9.99/month</Button>
+        </Link>
+      )}
 
       <div className="flex items-center gap-2">
         <ModeToggle />
