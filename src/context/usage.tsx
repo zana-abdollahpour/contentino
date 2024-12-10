@@ -11,6 +11,7 @@ import { useUser } from "@clerk/nextjs";
 
 import { usageCount } from "@/actions/ai";
 import { checkUserSusbcription } from "@/actions/stripe";
+import { CREDITS } from "@/constants";
 
 interface UsageContextType {
   subscribed: boolean;
@@ -57,7 +58,7 @@ export const UsageProvider = ({
   }, [email, fetchSubscription, fetchUsage]);
 
   useEffect(() => {
-    if (count > 10000) setOpenModal(true);
+    if (count > CREDITS) setOpenModal(true);
   }, [count]);
 
   return (

@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useUsage } from "@/context/usage";
+import { CREDITS } from "@/constants";
 
 interface TemplatePageProps {
   params: { slug: string };
@@ -28,7 +29,7 @@ export default function TemplatePage({ params: { slug } }: TemplatePageProps) {
 
   const editorRef = useRef<Editor | null>(null);
 
-  const { fetchUsage } = useUsage();
+  const { fetchUsage, subscribed, count } = useUsage();
   const { user } = useUser();
   const email = user?.primaryEmailAddress?.emailAddress || "";
 
@@ -132,11 +133,17 @@ export default function TemplatePage({ params: { slug } }: TemplatePageProps) {
                 )}
               </div>
             ))}
-            <Button type="submit" className="w-full py-6" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full py-6"
+              disabled={loading || (!subscribed && count >= CREDITS)}
+            >
               {loading ? (
                 <Loader className="mr-2 animate-spin" />
-              ) : (
+              ) : subscribed || count < CREDITS ? (
                 "Generate Content"
+              ) : (
+                "Subscribe to generate more content"
               )}
             </Button>
           </form>

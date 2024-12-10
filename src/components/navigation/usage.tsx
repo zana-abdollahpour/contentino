@@ -5,8 +5,7 @@ import { twMerge } from "tailwind-merge";
 
 import { useUsage } from "@/context/usage";
 import { Button } from "@/components/ui/button";
-
-const CREDITS = 10000;
+import { CREDITS } from "@/constants";
 
 export default function Usage() {
   const { count } = useUsage();
