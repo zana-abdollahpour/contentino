@@ -58,8 +58,8 @@ export const UsageProvider = ({
   }, [email, fetchSubscription, fetchUsage]);
 
   useEffect(() => {
-    if (count > CREDITS) setOpenModal(true);
-  }, [count]);
+    setOpenModal(!subscribed && count > CREDITS);
+  }, [count, subscribed]);
 
   return (
     <UsageContext.Provider
