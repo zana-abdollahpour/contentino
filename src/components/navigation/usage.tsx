@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import { CREDITS } from "@/constants";
 
 export default function Usage() {
-  const { count } = useUsage();
+  const { count, subscribed } = useUsage();
 
-  const percentage = (count / CREDITS) * 100;
+  const percentage = subscribed ? 100 : (count / CREDITS) * 100;
 
   return (
     <div className="my-2">
@@ -25,7 +25,9 @@ export default function Usage() {
           />
         </div>
         <h3 className="my-2 text-xs md:text-sm">
-          {CREDITS - count} / {CREDITS}
+          {subscribed
+            ? "Unlimited Credits"
+            : `${CREDITS - count} / ${CREDITS} remaining`}
         </h3>
       </div>
 
