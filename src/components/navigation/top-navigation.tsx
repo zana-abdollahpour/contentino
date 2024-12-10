@@ -34,14 +34,10 @@ export default function TopNavigation() {
       </Link>
 
       {!subscribed && (
-        <Link href="/membership" className="hidden md:block">
+        <Link href="/membership" className="hidden lg:block">
           <Button variant="outline">🔥 Join free for $9.99/month</Button>
         </Link>
       )}
-
-      <Link href="/gen-ai">
-        <Button variant="outline">Generative AI</Button>
-      </Link>
 
       <div className="flex items-center gap-2">
         <ModeToggle />
@@ -53,6 +49,10 @@ export default function TopNavigation() {
             </Link>
           </Button>
         )}
+
+        <Link href="/gen-ai" className="hidden sm:block">
+          <Button variant="outline">Generative AI</Button>
+        </Link>
 
         <SignedOut>
           <SignInButton />
