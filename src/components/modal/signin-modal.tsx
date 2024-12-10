@@ -2,7 +2,7 @@
 
 import { useClerk, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function SigninModal() {
   const { openSignIn } = useClerk();
@@ -16,14 +16,8 @@ export default function SigninModal() {
   };
 
   return (
-    <div
-      onClick={handleClick}
-      className="bg-transparen mx-auto mb-4 flex w-1/2 items-center justify-between rounded-full border border-slate-300 px-4 py-2 hover:bg-slate-700 hover:bg-opacity-50"
-    >
-      <span className="text-slate-100">Let&apos;s generate some content!</span>
-      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-500 text-slate-100">
-        <ChevronRight />
-      </span>
-    </div>
+    <Button className="bg-[#422a4e] dark:bg-[#e374ff]" onClick={handleClick}>
+      Get started
+    </Button>
   );
 }
