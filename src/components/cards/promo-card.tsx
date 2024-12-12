@@ -22,9 +22,9 @@ export default function PromoCard({
       >
         <h3 className="mb-2 pt-10 text-lg font-semibold text-white">{title}</h3>
         <p className="mb-4 text-gray-300">{description}</p>
-        <a href={link} className="text-blue-500 hover:underline">
+        <button type="button" className="text-blue-500 hover:underline">
           Learn more
-        </a>
+        </button>
       </div>
     </Link>
   );
