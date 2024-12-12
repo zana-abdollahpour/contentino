@@ -9,13 +9,14 @@ import {
   UserButton,
   useUser,
 } from "@clerk/nextjs";
+import { Loader } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/navigation/mode-toggle";
 import { useUsage } from "@/context/usage";
 
 export default function TopNavigation() {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
   const { subscribed } = useUsage();
 
   return (
@@ -42,31 +43,44 @@ export default function TopNavigation() {
       <div className="flex items-center gap-2">
         <ModeToggle />
 
-        {isSignedIn && (
-          <Button variant="secondary" className="border border-primary/60">
-            <Link className="mr-2" href="/dashboard">
-              My Dashboard
+        {!isLoaded ? (
+          <>
+            <span className="ml-2">Loading</span>
+            <Loader className="animate-spin" />
+          </>
+        ) : (
+          <>
+            <Link href="/gen-ai" className="hidden sm:block">
+              <Button variant="outline" className="border border-primary/60">
+                Generative AI
+              </Button>
             </Link>
-          </Button>
+
+            {isSignedIn && (
+              <Button variant="secondary" className="border border-primary/60">
+                <Link className="mr-2" href="/dashboard">
+                  My Dashboard
+                </Link>
+              </Button>
+            )}
+
+            <SignedOut>
+              <SignInButton>
+                <Button>Sign in</Button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton
+                appearance={{
+                  elements: {
+                    userButtonAvatarBox:
+                      "md:h-12 md:w-12 border-2 border-primary/60",
+                  },
+                }}
+              />
+            </SignedIn>
+          </>
         )}
-
-        <Link href="/gen-ai" className="hidden sm:block">
-          <Button variant="outline">Generative AI</Button>
-        </Link>
-
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton
-            appearance={{
-              elements: {
-                userButtonAvatarBox:
-                  "md:h-12 md:w-12 border-2 border-primary/60",
-              },
-            }}
-          />
-        </SignedIn>
       </div>
     </nav>
   );
